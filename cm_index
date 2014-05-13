@@ -1,0 +1,75 @@
+syscall/loadelf.c:            pte->flag |= MODIFIED;
+vm/addrspace.c:		// if(pte->flag&VALID && pte->cm_index >= 0){
+vm/addrspace.c:				kprintf("TEXT: %u set not occupied for index %d!!!\n",pte->page_number,index);
+vm/addrspace.c:        // if(pte->flag&VALID && pte->cm_index >= 0){
+vm/addrspace.c:                kprintf("DATA: %u set not occupied for index %d!!!\n",pte->page_number,index);
+vm/addrspace.c:        // if(pte->flag&VALID && pte->cm_index >= 0){
+vm/addrspace.c:                kprintf("STACK: %u set not occupied for index %d!!!\n",pte->page_number,index);
+vm/vm.c:                paddr = coremap[pte->cm_index]->cm_paddr;
+vm/vm.c:                paddr = coremap[pte->cm_index]->cm_paddr; // get the frame from pt
+vm/vm.c:            if((pte->flag&VALID)&&(pte->flag&DIRTY)){
+vm/vm.c:            if(!(pte->flag&MODIFIED)){
+vm/vm.c:                if(pte->flag&VALID){
+vm/vm.c:                kprintf("READONLY page_number: %u    cm_index: %u   fault:%d  flag%d \n",pte->page_number,pte->cm_index,p_fault,pte->flag);
+vm/vm.c:        if(pte->flag&IN_SWAP){
+vm/vm.c:        paddr = coremap[pte->cm_index]->cm_paddr;
+vm/vm.c:        if(pte->flag&IN_SWAP){
+vm/vm.c:        paddr = coremap[pte->cm_index]->cm_paddr;
+vm/vm.c:        paddr = coremap[pte->cm_index]->cm_paddr; // get the frame from pt
+vm/vm.c:        //kprintf("pte->cm_index: %d\n",pte->cm_index);
+vm/vm.c:    if(result && !(pte->flag & IN_SWAP)){
+vm/vm.c:        if((pte->flag & DIRTY) && ((pte->flag & VALID)||(pte->flag&IN_SWAP))){
+vm/vm.c:        else if(((pte->flag & VALID)||(pte->flag&IN_SWAP))&& !(pte->flag & DIRTY)){
+vm/vm.c:            if(pte->flag& MODIFIED){
+vm/vm.c:                kprintf("page_number:%u frame index:%u\n",pte->page_number,pte->cm_index);
+vm/vm.c:        pte->flag |= MODIFIED;
+vm/vm.c:    if((pte->flag & DIRTY) && ((pte->flag & VALID)||(pte->flag&IN_SWAP))){
+vm/vm.c:    else if(((pte->flag & VALID)||(pte->flag&IN_SWAP))&& !(pte->flag & DIRTY)){
+vm/vm.c:        if(pte->flag& MODIFIED){
+vm/vm.c:            kprintf("page_number:%u frame index:%u\n",pte->page_number,pte->cm_index);
+vm/coremap.c:            kprintf("HELLO!!!!! NUMBER: %d\n",pte->cm_index);
+vm/coremap.c:        coremap[pte->cm_index]->cm_proc = curproc;
+vm/coremap.c:        coremap[pte->cm_index]->cm_swappable = swappable;
+vm/coremap.c:        paddr = coremap[pte->cm_index]->cm_paddr;
+vm/coremap.c://        kprintf("write into swap!  index:%u   vaddr:%u   paddr:%u    segment type:%d\n",pte->cm_index,pte->page_number,paddr,seg_type);
+vm/pt.c:    pte->cm_index = cm_index;
+vm/pt.c:    pte->page_number = page_number;
+vm/pt.c:    pte->flag |= flag;
+vm/pt.c:    pte->swapfile_index = -1;
+vm/pt.c:    pte->cm_index = cm_index;
+vm/pt.c:    pte->flag |= flag; //still need to add something
+vm/pt.c:            pte->flag &= ~DIRTY;
+vm/pt.c:            kprintf("****put vaddr:%u paddr: %u (type:%u) into DATA: index: %d\n",pte->page_number,cmt[pte->cm_index]->cm_paddr, seg_type,i);
+vm/pt.c:            kprintf("****put vaddr:%u paddr: %u (type:%u) into DATA: index: %d\n",pte->page_number,cmt[pte->cm_index]->cm_paddr, seg_type,i);
+vm/pt.c:            kprintf("****put vaddr:%u paddr: %u (type:%u) into DATA: index: %d\n",pte->page_number,cmt[pte->cm_index]->cm_paddr, seg_type,i);
+vm/swapfile.c:	if (pte->flag & MODIFIED) {
+vm/swapfile.c:		if (pte->flag & IN_SWAP) {// if it was in swapfile, find the previous slot 
+vm/swapfile.c:			off_t offset = pte->swapfile_index * PAGE_SIZE; // find the previous offset(slot)
+vm/swapfile.c:			uio_kinit(&iov, &u, (void *)pte->page_number, PAGE_SIZE, offset, UIO_WRITE);
+vm/swapfile.c:            pte->flag &= ~VALID; //set the page table entry in invalid
+vm/swapfile.c:            pte->cm_index = -1;
+vm/swapfile.c:			uio_kinit(&iov, &u, (void *)pte->page_number, PAGE_SIZE, offset, UIO_WRITE);
+vm/swapfile.c:            //kprintf("start to write %u into swap that was not in swap pos:%llu\n",pte->page_number,u.uio_offset);
+vm/swapfile.c:            pte->swapfile_index = index; //set the index into page table entry
+vm/swapfile.c:            pte->flag |= IN_SWAP; // this page is in swapfile
+vm/swapfile.c:            pte->flag &= ~VALID;
+vm/swapfile.c:            pte->cm_index = -1;
+vm/swapfile.c:		vaddr_t vaddr = pte->page_number;
+vm/swapfile.c:		paddr_t paddr = coremap[pte->cm_index]->cm_paddr;
+vm/swapfile.c:        kprintf("page:%u flag:%u\n",pte->page_number,pte->flag);
+vm/swapfile.c:    offset = pte->swapfile_index * PAGE_SIZE;
+vm/swapfile.c:    seg_type = segment_type(pte->page_number);//get the segment type
+vm/swapfile.c:    pte->cm_index = frame_index;
+vm/swapfile.c:    result = tlb_probe(pte->page_number, 0);
+vm/swapfile.c:    //kprintf("tlb result: %d    page:%u\n",result,pte->page_number);
+vm/swapfile.c:    TLB_updating(pte->page_number, paddr);
+vm/swapfile.c:    result = tlb_probe(pte->page_number, 0);
+vm/swapfile.c:    pte->flag |= VALID;
+vm/swapfile.c:	uio_kinit(&iov, &u, (void*)pte->page_number, PAGE_SIZE, offset, UIO_READ);
+vm/swapfile.c:    pte->flag |= VALID;//set the page table entry to valid
+vm/swapfile.c:            if(pte->cm_index >= 0 && (pte->flag&VALID)){
+vm/swapfile.c:                //kprintf("find a victim %u  and its flag is %u\n",pte->page_number,pte->flag);
+vm/swapfile.c:            if(pte->cm_index >= 0 && (pte->flag&VALID)){
+vm/swapfile.c:                //kprintf("find a victim %u  and its flag is %u\n",pte->page_number,pte->flag);
+vm/swapfile.c:            if(pte->cm_index >= 0 && (pte->flag&VALID)){
+vm/swapfile.c:                //kprintf("find a victim %u  and its flag is %u\n",pte->page_number,pte->flag);
